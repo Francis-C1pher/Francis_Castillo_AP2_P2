@@ -6,6 +6,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import edu.ucne.francis_castillo_ap2_p2.data.remote.GastoApi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -42,9 +43,15 @@ object AppModule {
     @Singleton
     fun provideRetrofit(moshi: Moshi, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://api.example.com/") // URL temporal, se cambiará en el examen
+            .baseUrl("https://gestionhuacalesapi.azurewebsites.net/")
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .client(okHttpClient)
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideGastoApi(retrofit: Retrofit): GastoApi {
+        return retrofit.create(GastoApi::class.java)
     }
 }
